@@ -4,11 +4,37 @@
 
 	<groupId>at.bestsolution</groupId>
 	<artifactId>bindex-maven-plugin</artifactId>
-	<version>2.1.5-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>bindex2 maven plugin</name>
 	<description>wraps biz.aQute.bnd:org.osgi.impl.bundle.repoindex.cli into a maven plugin</description>
+	<licenses>
+		<license>
+			<name>EPL</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
+	<url>https://github.com/BestSolution-at/bindex-maven-plugin</url>
+	<scm>
+		<url>https://github.com/BestSolution-at/bindex-maven-plugin</url>
+	</scm>
+	<developers>
+		<developer>
+			<name>Christoph Caks</name>
+			<email>ccaks@bestsolution.at</email>
+			<roles>
+				<role>Maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Tom Schindl</name>
+			<email>tom.schindl@bestsolution.at</email>
+			<roles>
+				<role>Maintainer</role>
+			</roles>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -21,9 +47,63 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<!-- see http://jira.codehaus.org/browse/MNG-5346 -->
+					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>mojo-descriptor</id>
+						<goals>
+							<goal>descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -37,11 +117,18 @@
 			<version>3.4</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>biz.aQute.bnd</groupId>
 			<artifactId>org.osgi.impl.bundle.repoindex.cli</artifactId>
 			<version>2.1.5</version>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
 </project>
